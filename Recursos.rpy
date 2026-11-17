@@ -23,8 +23,7 @@ transform carrera_panico:
     linear 0.5 xpos 1920
     linear 0.5 xpos 750
 
-##### Aviso de afecto #####
-## Uso en el script: $ cambiar_afecto(1)  o  $ cambiar_afecto(-1)
+
 init python:
     def cambiar_afecto(cantidad):
         store.afecto_claire += cantidad
