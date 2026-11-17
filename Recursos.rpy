@@ -11,8 +11,6 @@ define ela_pensando = Character(None, what_italic=True, what_color="#ffb6c1", wh
 define p = Character(None, what_italic=True, what_color="#aaaaaa", what_size=40, what_prefix="(", what_suffix=")")
 
 ##### Sprites #####
-## OJO: el script usa los nombres clae_loca2, clae_fastidio31, ela uniforme_abrazando1, etc.
-## Verifica que existan como archivos en images/ o defínelos aquí con "image".
 image claire_loca = "images/Sprites/claire/clae_loca.png"
 image elara_UniAbrazando = "images/Sprites/Elara/ela_UniAbrazando.png"
 
