@@ -1,4 +1,4 @@
-label splashscreen:
+﻿label splashscreen:
     scene black
     with dissolve
 
@@ -14,20 +14,17 @@ label splashscreen:
         "No, vete a jugar Minecraft.":
             $ renpy.quit()
 
-
 label start:
+
 
     python:
         nombre_ingresado = renpy.input("{b}{color=#1c0A23}¿Cómo te llamas?{/color}, {color=#c30010}(por defecto Elara){/color}{/b} ", default="Elara", length=15)
         nombre_ingresado = nombre_ingresado.strip()
 
-    # Si lo deja vacío, se usa el nombre por defecto
-    if not nombre_ingresado:
-        $ nombre_ingresado = "Elara"
+    if nombre_ingresado:
+        $ nombre_prota = nombre_ingresado
 
-    $ nombre_prota = nombre_ingresado
-
-    play music "audio/musica/Rainy Morning.mp3"
+        play music "audio/musica/Rainy Morning.mp3"
     "La mañana apenas comenzaba. Los primeros rayos del sol entraban por la ventana, anunciando el inicio de un nuevo día\npara [nombre_prota]."
 
     scene habitacion manana
@@ -36,98 +33,116 @@ label start:
     ela "Y lo mejor de todo es que no tengo nada que hacer..."
     hide ela happy2
 
-    "[nombre_prota], se encontraba completamente tranquila, disfrutando de la mañana sin ninguna preocupación."
+    "[nombre_prota],se encontraba completamente tranquila, disfrutando de la mañana sin ninguna preocupación."
     "Lo que ella no recordaba era un pequeño detalle..."
     "Hoy era su primer día de clases."
     stop music fadeout 0.5
 
-    show ela suprised1 at carrera_panico
-    with dissolve
+transform carrera_panico: 
 
-    ela "¡¡AAAAAAAAAA!!" with hpunch
-    hide ela suprised1
+ yalign 1.0
+ linear 0.5 xpos 0
+ linear 0.5 xpos 1920
+ linear 0.5 xpos 0
+ linear 0.5 xpos 1920
+ linear 0.5 xpos 750
 
-    show ela uniforme_happy
+show ela suprised1 at carrera_panico
+with dissolve
+    
+ela "¡¡AAAAAAAAAA!!" with hpunch
+hide ela suprised1
+
+show ela uniforme_happy
+with fade
+ela "¡Por fin encontré mi uniforme!"
+
+scene sala2 
+with fade
+show clae_loca2
+with dissolve
+clae "jojojjojo"
+clae "Mira quien se ha levantado"
+clae "y yo pensando que no te ivas a lenvantar"
+p "que fastidio"
+hide clae_loca2
+
+
+show ela uniforme_happy
+with fade
+ela_pensando "oh, que esta claire aqui"
+hide ela uniforme_happy
+
+show clae_fastidio31 at right
+show ela uniforme_abrazando1 at left
+clae "aaaaaa"
+clae "NOOOOO,{w=1.0} NI SE TE OCURRA"
+clae "NO , YA DIJE QUE NO"
+hide clae_fastidio31
+    
+
+show ela uniforme_abrazando1 at center
+with fade
+ela "SEÑORITA CLAE, DEME UN ABRAZO"
+menu:
+    "Abrazar a Claire":
+        $ RutaA = "Porfin"
+        $ afecto_claire += 1
+        $ ruta_romantica = False
+
+    "No abrazar a Claire":
+        $ RutaA = "QueMal"
+        $ decisiones_malas += 1
+        $ ruta_mala = True
+
+
+if RutaA == "Porfin":
+
+    ela "Por fin la abracé, señorita Claire."
+
+    clae "..."
+
+    jump ruta_amor
+
+else:
+
+    hide ela uniforme_abrazando1
+    show clae_fastidio31
     with fade
-    ela "¡Por fin encontré mi uniforme!"
 
-    scene sala2
-    with fade
-    show clae_loca2
-    with dissolve
-    clae "jojojjojo"
-    clae "Mira quien se ha levantado"
-    clae "y yo pensando que no te ibas a levantar"
-    p "que fastidio"
-    hide clae_loca2
+    clae "Qué fastidio es estar contigo."
 
-    show ela uniforme_happy
-    with fade
-    ela_pensando "oh, que esta claire aqui"
-    hide ela uniforme_happy
-
-    show clae_fastidio31 at right
-    show ela uniforme_abrazando1 at left
-    clae "aaaaaa"
-    clae "NOOOOO,{w=1.0} NI SE TE OCURRA"
-    clae "NO , YA DIJE QUE NO"
-    hide clae_fastidio31
-
-    show ela uniforme_abrazando1 at center
-    with fade
-    ela "SEÑORITA CLAE, DEME UN ABRAZO"
-
-    menu:
-        "Abrazar a Claire":
-            $ RutaA = "Porfin"
-            $ cambiar_afecto(1)
-            $ es_ruta_romantica = True
-            $ es_ruta_mala = False
-
-        "No abrazar a Claire":
-            $ RutaA = "QueMal"
-            $ decisiones_malas += 1
-            $ cambiar_afecto(-1)
-            $ es_ruta_romantica = False
-            $ es_ruta_mala = True
-
-    if RutaA == "Porfin":
-
-        ela "Por fin la abracé, señorita Claire."
-
-        clae "..."
-
-        jump ruta_romantica
-
-    else:
-
-        hide ela uniforme_abrazando1
-        show clae_fastidio31
-        with fade
-
-        clae "Qué fastidio es estar contigo."
-
-        jump ruta_mala
+    jump ruta_mala
 
 
-label ruta_romantica:
+label ruta_amor:
 
     clae "Tal vez... no estuvo tan mal."
 
     menu:
         "Decirle a Claire que la amas":
-            $ cambiar_afecto(1)
+            $ afecto_claire += 1
             clae "¿En serio me amas?"
             ela "Sí, Claire. Te amo."
             clae "Yo también te amo, [nombre_prota]."
 
-        "Alejarse de Claire":
-            $ cambiar_afecto(-1)
+            jump ruta_normal
+            
+
+        "Alejarse de Claire": 
             clae "Como quieras..."
 
-    return
+            jump ruta_normal
 
+label ruta_normal:
+            
+    scene fuera_casa
+     
+    ela "Entonces, nos vamos a la escuela?"
+    clae "" 
+    return           
 
+            
 label ruta_mala:
 
     clae "Cada vez me caes peor."
@@ -135,14 +150,13 @@ label ruta_mala:
 
     menu:
         "Intentar disculparse":
-            # Disculparse NO suma decisiones malas
+            $ decisiones_malas += 1
             clae "No me interesa lo que tengas que decir."
             ela "Lo siento, Claire. No quise molestarte."
             clae "Bueno, supongo que puedo perdonarte esta vez."
 
         "Ignorar a Claire":
             $ decisiones_malas += 1
-            $ cambiar_afecto(-1)
             clae "No me interesa lo que tengas que decir."
             ela "..."
             clae "Bueno, supongo que puedo perdonarte esta vez."
@@ -152,9 +166,8 @@ label ruta_mala:
         jump ruta_mala_profunda
 
     else:
-
+        
         return
-
 
 label ruta_mala_profunda:
 
